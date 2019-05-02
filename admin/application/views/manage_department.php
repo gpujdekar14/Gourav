@@ -5,13 +5,40 @@
             <small>Manage Department</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>            
+            <li><a href="<?php echo site_url('Dashboard');?>"><i class="fa fa-dashboard"></i> Dashboard</a></li>            
             <li class="active"> Master Settings</li>
         </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content" ng-app="myApp" ng-controller="manageDepartmentCtrl" ng-init="init()">
+    <section class="content" style="min-height: 1000.8px;" ng-app="myApp" ng-controller="manageDepartmentCtrl" ng-init="init()">
+    <div class="box" ng-show="showUploadFile">
+            <div class="box-header with-border">
+                <h3 class="box-title" ng-show="!order_id">Upload File</h3>              
+          </div>  
+          <div class="box-body">  
+           <div class="col-md-12" ng-show="showFile"> 
+                <div class="panel panel-default ">
+              
+                    <div class="panel-body">      <p style="color: black" >
+               Your xlsx data should be in the format below. The first line of your xlsx file should be the column headers as in the table example.
+              </p>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group" id="">
+                                <label>upload file: <span class="text-red">*</label>
+                                <input type="file" style="height:auto;" class="form-control" placeholder="" >
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+             <div class="box-footer">
+            <input type="button" class="btn btn-flat btn-success" ng-show="!order_id" value="Add" ng-click="add()">           
+            <input type="button" class="btn btn-flat btn-default pull-right" ng-click="init()" value="Cancel">
+            
+        </div>
+</div>
+</div>
 
         <div class="box" ng-show="showAddUpdate">
             <div class="box-header with-border">
@@ -23,63 +50,44 @@
 
           <!-- ****************** input fields **************************** -->
           <div class="box-body">      
-            <div class="col-md-12" ng-show="addUpdateUsers">
+            <div class="col-md-12" ng-show="addUpdateDepartment">
                 <div class="panel panel-default ">
                     <div class="panel-body">
                        
                         <div class="col-md-3 col-sm-12">
-                            <div class="form-group" id="userNameDiv">
-                                <label>Department Name:  <span class="text-red">*</label>
-                                <input type="text" class="form-control" ng-model="inputUsername" id="inputUsername" ng-pattern="/[aA-zZ\s]$/" required placeholder="" >
+                            <div class="form-group" id="departmentDiv">
+                                <label>Category Name:  <span class="text-red">*</label>
+                                <input type="text" class="form-control" ng-model="inputCategoryname" id="inputCategoryname" ng-pattern="/[aA-zZ\s]$/" required placeholder="" >
                             </div>
-                        </div>        
+                        </div>  
+                          
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group" id="UnitDiv">
+                                <label>Unit:  <span class="text-red">*</label>
+                                <input type="text" class="form-control" ng-model="inputUnit" id="inputUnit" ng-pattern="" required placeholder="" >
+                            </div>
+                        </div>  
                                      
 
                         <!-- ****************** add update delete for services ******************* -->
 
                         <div class="col-md-2 col-sm-12">
-                            <label>&nbsp;</label><br>
-                            <input type="button" class="btn btn-success btn-sm btn-flat" ng-show="!serviceObjectId" value="Add" ng-click="add()">
-                            <input type="button" class="btn btn-success btn-sm btn-flat" ng-show="serviceObjectId" value="Update" ng-click="updateService()">
-                            <input type="button" ng-show="showAddClose" class="btn btn-danger btn-sm btn-flat" value="Close" ng-click="closeServices()"></button>
-                          
+                            <label>&nbsp;</label><br>                      
+                            <button type="button" class="btn btn-primary">Clear</button>
+                                                 
                         </div>
                     </div>
                 </div>
             </div>
-          
-
-                   
-
-
-
-            <!-- ******************** table of services *************************** -->
-
-            <div class="row" ng-show="servicesAssignedArray.length > 0">
-                <div class="col-md-12 col-sm-12">
-                    <div class="table-responsive">
-                        <table class="table table-stripped">
-                        
-                              
-                            </tr>
-                        </table>    
-                    </div>
-                </div>
-            </div>
-
-           
-
-
-
+         
         </div>
 
         <!-- ********************** add update delete for orders ********************* -->
 
-        <div class="box-footer">        
-           
-            <input type="button" class="btn btn-flat btn-danger pull-right" ng-click="init()" value="Cancel">
-        </div> 
-
+        <div class="box-footer">
+             <button type="button" class="btn btn-success btn-flat" ng-click="showSubmit()"> Submit </button>
+             <input type="button" class="btn btn-flat btn-danger pull-right" ng-click="init()" value="Cancel">
+        </div>
     </div>
 
     <!-- ************************ table of orders **************************** -->
@@ -91,12 +99,16 @@
         <div class="box-body">
 
             <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
 
-                  <div class="col-md-7">
-                    <button type="button" class="btn btn-success btn-flat" ng-click="showAdd()"><i class="fa fa-plus"></i> Add New Department</button>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-success btn-flat"  ng-click="showAdd()"><i class="fa fa-plus"></i> Add New Category</button>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
+                <button type="button" class="btn btn-primary btn-flat"  ng-click="importFile()"><i class="fa fa-plus"></i> Import New Category</button>
+                
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search..." ng-model="inputSearch">
@@ -113,7 +125,7 @@
             <tr class="bg-gray">
                 <th>Dep Id</th>
                 <th>Department Name</th>   
-                           
+                <th>Unit</th>           
                 <th colspan="2">Actions</th>
             </tr>            
             <tr ng-repeat="assigned in filterData = (assignedList | orderBy: '+' |filter : inputSearch) | limitTo:itemsPerPage: itemsPerPage*(page-1)">
@@ -134,77 +146,8 @@
     </div>
 
 </div>
-
-
-<!-- ********************** modal to show service details ******************** -->
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" id="model" role="document">
-      <div class="modal-content">
-
-       <div style="overflow: visible; background-color: #fff;border: 1px solid black">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>          
-            <div class=" ">
-              <h4>Service List</h4>        
-          </div>
-      </div>
-
-      <div class="modal-body privewModal">
-      <div class="row">
-            <div class="col-md-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr  class="bg-gray" >
-                            <th>Sr. No.</th>
-                            <th>Service</th>
-                            <th>Sector</th>
-                            <th>Order Date</th>
-                            <th>Order Details</th>
-                            <th>Expiry Date</th>
-                            <th>Renewal Cost</th>
-                            <th>Rewnewal years</th>
-                            <th>Rewnewal Status</th>
-                        </tr>
-                        <tr ng-repeat="serv in servicesArray">
-                            <td>{{$index+1}}</td>
-                            <td>{{serv.service_name.split('|')[1]}} </td>
-                            <td>{{serv.sector_name.split('|')[1]}} </td>
-                            <td>{{serv.order_detail_order_date}}</td>
-                            <td>{{serv.order_detail_order_details}}</td>
-                            <td>{{serv.order_detail_expiry_date}}</td>
-                            <td>{{serv.order_detail_renewal_cost}}</td>
-                            <td ng-if="serv.order_details_no_of_years == 0"> - </td>
-                            <td ng-if="serv.order_details_no_of_years != 0">{{serv.order_details_no_of_years}}</td>
-
-
-                            <td ng-if="serv.order_detail_is_renewed == 0"> - </td>
-                            <td ng-if="serv.order_detail_is_renewed == 1"><small class="label pull-right bg-green">Renewed</small></td>
-                        </tr>
-
-                    </table>
-                </div>            
-            </div>
-        </div>
-       
-        </div>
-    </div>  
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </section>
-
-
-
 </div>  
-
 <script>
   $(document).ready(function() {
     $('#assignServices').addClass('active');

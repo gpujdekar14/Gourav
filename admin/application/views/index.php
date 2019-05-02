@@ -14,7 +14,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      <div class="row">
+      <div class="row" style="min-height: 1000.8px;">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">

@@ -39,13 +39,14 @@
 
     <form action="" method="post" id="login_form">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Email">
+        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
+      <span class="text-red" id="msg"></span>
       <div class="form-group" id="selectedClientDiv">
                     <label>Select User:</label>
                     <select class="form-control" ng-change="" ng-model="" id="">
@@ -54,6 +55,7 @@
                         <option>Cafe</option>
                     </select>
                 </div>
+
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
@@ -101,15 +103,36 @@
                
             function CommonLoginFunction()
               {            
-                alert("h");
+                    var wrong = "Wrong credentials";
+                    var check = "Fill the details";
+                    var username = $("#username").val();
+                    var password = $("#password").val();  
+                if (jQuery.trim(username).length > 0 && jQuery.trim(password).length > 0 ){      
                   $.ajax({
-                              success: function(response)
-                              {
-                              window.location = "<?php echo site_url('Dashboard'); ?>";
-                              }                     
-                      });
-              }
-          });
+                    url: '<?php echo site_url("Home/login_check"); ?>',
+                    type: "POST",
+                    data: $('#login_form').serialize(),
+                    cache: false,
+                    beforeSend: function()
+                    { },
+                    success: function(response) {  
+                    //alert(response);
+                  
+                      if (response == -1) {
+                                  alert("Invalid username or password");
+
+                                } else if (response == 0) {
+                                  alert("Invalid username or password");
+                                }
+                                else if (response == 1) {
+
+                                    window.location = "<?php echo site_url('Dashboard'); ?>";
+                                }
+                    }
+                   });
+                }
+                  }
+                });
 </script>
 </body>
 </html>

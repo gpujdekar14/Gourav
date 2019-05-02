@@ -15,7 +15,6 @@ class Dashboard extends CI_Controller {
             $this->load->view('comman/footer');
         }
        
-   
 }
 
 ?>

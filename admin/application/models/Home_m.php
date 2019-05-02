@@ -1,16 +1,18 @@
 
 <?php
-class Home_m extends CI_Model
+class Login_m extends CI_Model
  {
-    /*function login() {
-        $username = $_POST['email'];
-        $password = $_POST['password'];
-        $query = $this->db->get_where('tbl_login', array('username' => $username, 'password' => $password));
+    function login() {
+        $username = $_POST['form-username'];
+        $password = $_POST['form-password'];
+        $query = $this->db->get_where('login_tbl', array('username' => $username, 'password' => $password));
         if ($query->num_rows() == 1) {
-          
+           foreach ($query->result() as $key) {
+                $role = $key->role;        
+           }
             $newdata = array(
-                'username' => $username,               
-                'logged_in' => TRUE
+                'username' => $username,
+                'role' => $role              
             );        
             $this->session->set_userdata($newdata);
             return TRUE;
@@ -18,7 +20,6 @@ class Home_m extends CI_Model
         else {
             return FALSE;
         }
-        echo "hell0";
-    }*/
+    }      
 }
 ?>

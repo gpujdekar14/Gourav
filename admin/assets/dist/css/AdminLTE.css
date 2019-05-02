@@ -17,6 +17,9 @@ html,
   -ms-box-sizing: border-box !important;
   box-sizing: border-box !important;
 }
+#inputFile{
+height:auto;
+}
 body {
   height: 100%;
 }
